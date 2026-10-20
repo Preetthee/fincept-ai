@@ -1,0 +1,22 @@
+import {useEffect, useState} from 'react';
+import {Outlet} from 'react-router-dom';
+import {Sidebar} from './Sidebar';
+import {readSidebarPreference, saveSidebarPreference} from './navigation';
+import '../../styles/application.css';
+import '../../styles/overview.css';
+import {ApplicationPreferences} from './ApplicationPreferences';
+import {ApplicationHeader} from './ApplicationHeader';
+
+/** The persistent route parent is the sole owner of sidebar state. */
+export function AuthenticatedLayout() {
+  const [expanded, setExpanded] = useState(readSidebarPreference);
+  useEffect(() => {saveSidebarPreference(expanded);}, [expanded]);
+  return <ApplicationPreferences><div className="application-shell" data-sidebar={expanded ? 'expanded' : 'minimized'}>
+    <a className="application-skip-link" href="#application-main">Skip to content</a>
+    <Sidebar expanded={expanded} onToggle={() => setExpanded(value => !value)}/>
+    <div className="application-workspace">
+      <ApplicationHeader/>
+      <main id="application-main" className="application-main" tabIndex={-1}><Outlet/></main>
+    </div>
+  </div></ApplicationPreferences>;
+}
