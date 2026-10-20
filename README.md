@@ -8,38 +8,33 @@ Desktop implementation of the original Figma Authentication, full Overview, func
 
 - Node.js 22.12+ (Node 24 was used for verification)
 - Python 3.11+ (Python 3.13 was used for verification)
-- Two terminals, both initially opened in the extracted `fincept-ai` folder
+- One terminal, initially opened in the extracted `fincept-ai` folder
 
 ## Run locally
 
-### Terminal 1 — backend
+### Install dependencies
 
 ```sh
+cd fincept-ai
+npm ci
 cd backend
 python -m venv .venv
-```
-
-Activate the virtual environment:
-
-- Windows PowerShell: `.\.venv\Scripts\Activate.ps1`
-- Windows Command Prompt: `.venv\Scripts\activate.bat`
-- macOS/Linux: `source .venv/bin/activate`
-
-Then:
-
-```sh
-python -m pip install -r requirements-dev.txt
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+cd ..
 ```
 
 A development SQLite database is initialized automatically at `backend/data/fincept.sqlite3`. No pre-created account is shipped. Register your own test account through the app. Use disposable test credentials during development.
 
-### Terminal 2 — frontend
+### Start frontend and backend together
 
 ```sh
-npm ci
-npm run dev
+npm run dev:full
 ```
+
+This starts FastAPI on `http://127.0.0.1:8000` and Vite on
+`http://127.0.0.1:5173` in the same terminal. Press `Ctrl+C` once to stop both
+services. The launcher automatically uses `backend/.venv` when it exists; set
+`PYTHON_BIN` if Python is installed elsewhere.
 
 Open **http://127.0.0.1:5173/sign-up** or **http://127.0.0.1:5173/sign-in**.
 

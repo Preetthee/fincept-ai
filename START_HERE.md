@@ -17,31 +17,26 @@ You do NOT need to merge either earlier ZIP into this folder. Extract this ZIP i
 
 ## Run locally
 
-Prerequisites: Node.js/npm and Python 3.13 (the versions used for verification). See README.md for OS-specific virtualenv activation and environment configuration.
+Prerequisites: Node.js/npm and Python 3.13 (the versions used for verification). The commands below use one terminal. See README.md for environment configuration.
 
-### 1. Backend — terminal one
-
-```sh
-cd fincept-ai/backend
-python -m venv .venv
-```
-
-Activate the virtualenv (`.venv\Scripts\activate` on Windows, or `source .venv/bin/activate` on macOS/Linux), then:
-
-```sh
-python -m pip install -r requirements-dev.txt
-python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 8000
-```
-
-### 2. Frontend — terminal two
+### Install dependencies
 
 ```sh
 cd fincept-ai
 npm ci
-npm run dev
+cd backend
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-dev.txt
+cd ..
 ```
 
-Open http://127.0.0.1:5173/sign-up to create a local account, or /sign-in to log in. After authentication, click **Open Overview**. New accounts show empty live data. Click **Explore sample data** to see the full illustrative page; the sample is explicitly labeled and never changes your live records. The sample option is development-only.
+### Start both services
+
+```sh
+npm run dev:full
+```
+
+FastAPI and Vite now run in the same terminal. Open http://127.0.0.1:5173/sign-up to create a local account, or /sign-in to log in. Press `Ctrl+C` once to stop both services.
 
 ## Scope
 
